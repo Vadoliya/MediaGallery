@@ -34,4 +34,24 @@
     <string name="camera_storage_permission_rational">Camera and/or Storage permissions are not granted. Please allow it from setting.</string>
     <string name="storage_permission_rational">Storage permission is not granted. Please allow it from setting.</string>
     <string name="min_video_recording_time_error">Record video longer then %s</string>
+
+
+
+    <string name="warning_font_title">Error</string>
+    <string name="warning_font_message">The file you have selected is not a font file. Please use these file .ttf, .otf, .ttc.</string>
+    <string name="imagepicker_msg_no_images">No photos available</string>
+    <string name="loading_photos">Loading photos.</string>
+    <string name="photos_taking_long_time">It is taking bit long.</string>
+    <string name="photos_taking_more_time">Looks like you have too many photos!</string>
+    <string name="remove_element_warning">Sure you want to remove this element?</string>
+    <string name="label_copy">Copy Style</string>
+    <string name="label_paste">Paste Style</string>
+    <string name="style_copied">Style copied.</string>
+    <string name="style_pasted">Style pasted.</string>
+    <string name="google_photos_disable">Google Photos is Disable</string>
+    <string name="label_enable">Enable</string>
+    <string name="google_photos_not_installed">Google Photos is not installed</string>
+    <string name="our_other_apps">Our other apps</string>
+    <string name="label_done">Done</string>
+    <string name="label_retry">Retry</string>
 </resources>

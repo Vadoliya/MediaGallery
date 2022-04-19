@@ -3,7 +3,27 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Kishan/DemoWorkspace/MediaGallery/MediaGallery/src/main/res/drawable/ic_video.xml" value="0.247" />
+        <entry key="..\:/Kishan/DemoWorkspace/MediaGallery/MediaGallery/src/main/res/layout/activity_media.xml" value="0.36666666666666664" />
+        <entry key="..\:/Kishan/DemoWorkspace/MediaGallery/MediaGallery/src/main/res/layout/activity_pickers.xml" value="0.228125" />
+        <entry key="..\:/Kishan/DemoWorkspace/MediaGallery/MediaGallery/src/main/res/layout/adapter_item_folder.xml" value="0.36666666666666664" />
+        <entry key="..\:/Kishan/DemoWorkspace/MediaGallery/MediaGallery/src/main/res/layout/album_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Kishan/DemoWorkspace/MediaGallery/MediaGallery/src/main/res/layout/custom_snackbar.xml" value="0.18802083333333333" />
+        <entry key="..\:/Kishan/DemoWorkspace/MediaGallery/MediaGallery/src/main/res/layout/fragment_folders.xml" value="0.228125" />
+        <entry key="..\:/Kishan/DemoWorkspace/MediaGallery/MediaGallery/src/main/res/layout/fragment_images.xml" value="0.228125" />
+        <entry key="..\:/Kishan/DemoWorkspace/MediaGallery/MediaGallery/src/main/res/layout/fragment_media.xml" value="0.36666666666666664" />
+        <entry key="..\:/Kishan/DemoWorkspace/MediaGallery/MediaGallery/src/main/res/layout/grid_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Kishan/DemoWorkspace/MediaGallery/app/src/main/res/drawable/drawable_save_back.xml" value="0.247" />
+        <entry key="..\:/Kishan/DemoWorkspace/MediaGallery/app/src/main/res/drawable/drawable_save_back_selected.xml" value="0.247" />
+        <entry key="..\:/Kishan/DemoWorkspace/MediaGallery/app/src/main/res/drawable/drawable_snackbar.xml" value="0.247" />
+        <entry key="..\:/Kishan/DemoWorkspace/MediaGallery/app/src/main/res/drawable/selector_save.xml" value="0.247" />
         <entry key="..\:/Kishan/DemoWorkspace/MediaGallery/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Kishan/DemoWorkspace/MediaGallery/app/src/main/res/layout/activity_media.xml" value="0.36666666666666664" />
+        <entry key="..\:/Kishan/DemoWorkspace/MediaGallery/app/src/main/res/layout/adapter_item_folder.xml" value="0.36666666666666664" />
+        <entry key="..\:/Kishan/DemoWorkspace/MediaGallery/app/src/main/res/layout/adapter_item_media_image.xml" value="0.3345690454124189" />
+        <entry key="..\:/Kishan/DemoWorkspace/MediaGallery/app/src/main/res/layout/custom_snackbar.xml" value="0.36666666666666664" />
+        <entry key="..\:/Kishan/DemoWorkspace/MediaGallery/app/src/main/res/layout/fragment_folders.xml" value="0.36666666666666664" />
+        <entry key="..\:/Kishan/DemoWorkspace/MediaGallery/app/src/main/res/layout/fragment_images.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>

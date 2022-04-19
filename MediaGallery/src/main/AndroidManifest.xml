@@ -9,9 +9,10 @@
 
     <application
         android:requestLegacyExternalStorage="true"
+        android:hardwareAccelerated="true"
         android:supportsRtl="true">
         <activity
-            android:name=".view.PickersActivity"
+            android:name=".gallery.MediaActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
