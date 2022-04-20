@@ -1,12 +1,5 @@
 package com.mediagallery.hashone.gallery
 
-/*import com.puzzle.maker.instagram.post.R
-import com.puzzle.maker.instagram.post.base.MyApplication
-import com.puzzle.maker.instagram.post.croppy.Croppy
-import com.puzzle.maker.instagram.post.croppy.main.CropRequest
-import com.puzzle.maker.instagram.post.croppy.util.file.FileCreator
-import com.puzzle.maker.instagram.post.croppy.util.file.FileOperationRequest*/
-//import kotlinx.android.synthetic.main.activity_cover_download.*
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.ApplicationInfo
@@ -14,8 +7,8 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
@@ -41,8 +34,7 @@ class MediaActivity : AppCompatActivity() {
     private lateinit var activity: Activity
     val selectedImagesList = ArrayList<ImageItem>()
 
-    var requestCode: Int = 0
-    var isCropMode: Boolean = false
+    private var isCropMode: Boolean = false
     var isMultipleMode: Boolean = false
     var maxSize: Int = 1
 
@@ -77,6 +69,11 @@ class MediaActivity : AppCompatActivity() {
             bundle.putInt("maxSize", maxSize)
             loadFragment(FoldersFragment(), bundle, false)
 
+            textViewTitle.text = when (GalleryConfig.getConfig().mediaType) {
+                MediaType.IMAGE -> getString(R.string.label_photos)
+                MediaType.VIDEO -> getString(R.string.label_video)
+                MediaType.IMAGE_VIDEO -> getString(R.string.label_media)
+            }
             textViewTotalCount.text = (if (maxSize > 1) {
                 " (" + selectedImagesList.size + "/" + maxSize + ")"
             } else "")
@@ -103,7 +100,7 @@ class MediaActivity : AppCompatActivity() {
                             intent.setPackage("com.google.android.apps.photos")
                             startActivityForResult(intent, 2020)
                         } else {
-                            showEnableGooglePhotosSnackbar()
+                            showEnableGooglePhotosSnackBar()
                         }
                     } else {
                         Utils.showSnackBar(
@@ -119,7 +116,7 @@ class MediaActivity : AppCompatActivity() {
     }
 
     var snackBar: Snackbar? = null
-    fun showEnableGooglePhotosSnackbar() {
+    private fun showEnableGooglePhotosSnackBar() {
         try {
             layoutMediaParent.post {
                 if (snackBar == null) {
@@ -150,18 +147,18 @@ class MediaActivity : AppCompatActivity() {
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                     startActivity(intent)
 
-                                    Handler().postDelayed({
+                                    Handler(Looper.getMainLooper()).postDelayed({
                                         view.isEnabled = true
                                     }, 2500L)
                                 }
                         }
                     })
 
-                    val snackview = snackBar!!.view
-                    val txtView = snackview.findViewById<TextView>(R.id.snackbar_text)
+                    val snackView = snackBar!!.view
+                    val txtView = snackView.findViewById<TextView>(R.id.snackbar_text)
                     txtView.setPadding(32, 16, 32, 16)
 
-                    ViewCompat.setOnApplyWindowInsetsListener(snackview) { v, insets ->
+                    ViewCompat.setOnApplyWindowInsetsListener(snackView) { v, insets ->
                         v.updatePadding(bottom = 0)
                         // Return the insets so that they keep going down the view hierarchy
                         insets
@@ -175,76 +172,6 @@ class MediaActivity : AppCompatActivity() {
             e.printStackTrace()
         }
     }
-
-/*
-    private inner class CopyFileTask(val context: Context, val uri: Uri) :
-        CoroutineAsyncTask<Void, Void, String>() {
-        override fun onPreExecute() {
-            super.onPreExecute()
-        }
-
-        override fun doInBackground(vararg params: Void?): String? {
-            try {
-                return createCopyAndReturnRealPath(context, uri)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-            return null
-        }
-
-        override fun onPostExecute(result: String?) {
-            super.onPostExecute(result)
-            try {
-                if (result != null) {
-                    val file = File(result)
-                    val fileOperationRequest = FileOperationRequest.createRandom(file.extension)
-                    val destinationPath =
-                        FileCreator
-                            .createFile(
-                                fileOperationRequest,
-                                MyApplication.instance.applicationContext
-                            )
-                    val excludeAspectRatiosCropRequest = CropRequest.Manual(
-                        sourceUri = uri,
-                        sourcePath = file,
-                        destinationUri = destinationPath,
-                        requestCode = requestCode
-                    )
-                    Croppy.start(activity, excludeAspectRatiosCropRequest)
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-
-        fun createCopyAndReturnRealPath(@NonNull context: Context, @NonNull uri: Uri?): String? {
-            val contentResolver = context.contentResolver ?: return null
-
-            // Create file path inside app's data dir
-            val filePath = (context.applicationInfo.dataDir.toString() + File.separator
-                    + System.currentTimeMillis())
-            val file = File(filePath)
-            try {
-                val inputStream = contentResolver.openInputStream(uri!!) ?: return null
-                val outputStream: OutputStream = FileOutputStream(file)
-                val buf = ByteArray(1024)
-                var len: Int
-                while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
-                outputStream.close()
-                inputStream.close()
-            } catch (ignore: IOException) {
-                return null
-            }
-            return file.absolutePath
-        }
-    }
-*/
-
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.menu_done, menu)
-//        this.menu = menu
-//        return true
-//    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -282,19 +209,6 @@ class MediaActivity : AppCompatActivity() {
         return -1
     }
 
-    fun selectedIndexes(subImages: ArrayList<ImageItem>): ArrayList<Int> {
-        val indexes = arrayListOf<Int>()
-        for (image in subImages) {
-            for (i in selectedImagesList.indices) {
-                if (selectedImagesList[i].path == image.path) {
-                    indexes.add(i)
-                    break
-                }
-            }
-        }
-        return indexes
-    }
-
     fun addItem(imageItem: ImageItem) {
         try {
             selectedImagesList.add(imageItem)
@@ -315,12 +229,6 @@ class MediaActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == requestCode && resultCode == Activity.RESULT_OK) {
             if (data != null) {
-                /* val filePath = data.extras!!.getString("path")
-                 val intent = Intent()
-                 intent.putExtra("path", filePath)
-                 activity.setResult(Activity.RESULT_OK, intent)
-                 activity.finish()*/
-
                 when (requestCode) {
                     2020 -> {
                         if (intent != null) {
@@ -333,6 +241,7 @@ class MediaActivity : AppCompatActivity() {
                             val images = ArrayList<String>()
                             images.add(filePath!!)
                             val intent = Intent()
+                            intent.putExtra(KeyUtils.PATHS, images)
                             intent.putExtra(KeyUtils.SELECTED_MEDIA, images)
                             activity.setResult(Activity.RESULT_OK, intent)
                             activity.finish()
@@ -343,50 +252,23 @@ class MediaActivity : AppCompatActivity() {
                         val images = ArrayList<String>()
                         images.add(filePath!!)
                         val intent = Intent()
+                        intent.putExtra(KeyUtils.PATHS, images)
                         intent.putExtra(KeyUtils.SELECTED_MEDIA, images)
                         activity.setResult(Activity.RESULT_OK, intent)
                         activity.finish()
                     }
                 }
-/*                when (requestCode) {
-                   2020 -> {
-                        if (intent != null) {
-//                            CopyFileTaskGoogle(applicationContext, data.data!!).execute()
-                            Toast.makeText(this, "CopyFileTaskGoogle", Toast.LENGTH_LONG).show()
-                        }
-                    }
-                    else -> {
-                        val filePath = data.extras!!.getString("path")
-                        val intent = Intent()
-                        intent.putExtra("path", filePath)
-                        activity.setResult(Activity.RESULT_OK, intent)
-                        activity.finish()
-                    }
-                }*/
             }
         }
     }
 
 
     fun finishPickImages(images: ArrayList<ImageItem>) {
-        /*if (isCropMode) {
-            val uri = ContentUris.withAppendedId(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                images[0].id
-            )
-//            CopyFileTask(applicationContext, uri).execute()
-            Toast.makeText(this, "finishPickImages CopyFileTask", Toast.LENGTH_LONG).show()
 
-        } else {
-            val newIntent = Intent()
-            newIntent.putExtra("paths", images)
-            setResult(RESULT_OK, newIntent)
-            finish()
-        }*/
         val imageList = ArrayList<String>()
         images.forEach { imageList.add(it.path) }
-        Log.e("finishPickImages", "images$images imageList:$imageList")
         val newIntent = Intent()
+        newIntent.putExtra(KeyUtils.PATHS, imageList)
         newIntent.putExtra(KeyUtils.SELECTED_MEDIA, imageList)
         setResult(RESULT_OK, newIntent)
         finish()

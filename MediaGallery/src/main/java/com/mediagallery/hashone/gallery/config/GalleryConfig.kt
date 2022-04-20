@@ -45,9 +45,5 @@ data class GalleryConfig(
         fun getConfig(): GalleryConfig {
             return mediaPickerConfig
         }
-
-        fun isSingleMediaSelection(): Boolean {
-            return (mediaPickerConfig.maxCount == 1)
-        }
     }
 }

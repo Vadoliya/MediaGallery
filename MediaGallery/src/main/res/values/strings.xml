@@ -1,57 +1,19 @@
 <resources>
     <string name="require_permission">This app needs storage permission.</string>
-    <string name="gallery_all_photos">All Photos</string>
     <string name="permission_title">Uh oh!</string>
     <string name="allow_access">Allow Access</string>
     <string name="label_photos">Photos</string>
     <string name="label_video">Video</string>
     <string name="label_media">Media</string>
-    <string name="label_videos" translatable="false">Video</string>
-    <string name="done">Done</string>
-    <string name="all_photos">All Photos</string>
-    <string name="all_video">All Video</string>
-    <string name="all_media">All Media</string>
-    <string name="cancel">Cancel</string>
-    <string name="ok">OK</string>
 
-    <!--Crop-->
-    <string name="label_crop">Crop</string>
-    <string name="label_skip">Skip</string>
-    <!-- Aspect ratio names -->
-    <string name="aspect_original">Original</string>
-    <string name="aspect_free">Free</string>
-    <string name="aspect_square">Square</string>
-
-    <string name="allow_multiple_images">You can select multiple images</string>
-    <string name="label_wow">Okay</string>
-    <string name="adding_image">Adding image...</string>
-    <string name="adding_images">Adding images...</string>
-
-
-    <string name="camera">Camera</string>
-    <string name="already_selected_max_items">Already selected max items</string>
-    <string name="camera_audio_storage_permission_rational">Camera, Audio and/or Storage permissions are not granted. Please allow it from setting.</string>
-    <string name="camera_storage_permission_rational">Camera and/or Storage permissions are not granted. Please allow it from setting.</string>
-    <string name="storage_permission_rational">Storage permission is not granted. Please allow it from setting.</string>
-    <string name="min_video_recording_time_error">Record video longer then %s</string>
-
-
-
-    <string name="warning_font_title">Error</string>
-    <string name="warning_font_message">The file you have selected is not a font file. Please use these file .ttf, .otf, .ttc.</string>
-    <string name="imagepicker_msg_no_images">No photos available</string>
-    <string name="loading_photos">Loading photos.</string>
+    <string name="loading_photos">Loading …</string>
     <string name="photos_taking_long_time">It is taking bit long.</string>
     <string name="photos_taking_more_time">Looks like you have too many photos!</string>
-    <string name="remove_element_warning">Sure you want to remove this element?</string>
-    <string name="label_copy">Copy Style</string>
-    <string name="label_paste">Paste Style</string>
-    <string name="style_copied">Style copied.</string>
-    <string name="style_pasted">Style pasted.</string>
+
     <string name="google_photos_disable">Google Photos is Disable</string>
     <string name="label_enable">Enable</string>
     <string name="google_photos_not_installed">Google Photos is not installed</string>
-    <string name="our_other_apps">Our other apps</string>
+
     <string name="label_done">Done</string>
     <string name="label_retry">Retry</string>
 </resources>

@@ -11,19 +11,9 @@ abstract class CoroutineAsyncTask<Params, Progress, Result> {
 
     abstract fun doInBackground(vararg params: Params?): Result?
 
-    open fun onProgressUpdate(vararg values: Progress?) {}
-
     open fun onPostExecute(result: Result?) {}
 
-    open fun onCancelled(result: Result?) {}
-
     protected var isCancelled = false
-
-    protected fun publishProgress(vararg progress: Progress?) {
-        GlobalScope.launch(Dispatchers.Main) {
-            onProgressUpdate(*progress)
-        }
-    }
 
     fun execute(vararg params: Params?) {
 
@@ -36,10 +26,6 @@ abstract class CoroutineAsyncTask<Params, Progress, Result> {
                 onPostExecute(result)
             }
         }
-    }
-
-    fun cancel(mayInterruptIfRunning: Boolean) {
-
     }
 
 }

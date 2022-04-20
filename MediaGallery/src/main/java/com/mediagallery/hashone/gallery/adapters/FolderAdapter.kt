@@ -1,6 +1,7 @@
 package com.mediagallery.hashone.gallery.adapters
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,25 +9,19 @@ import android.widget.AdapterView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.mediagallery.hashone.R
 import com.mediagallery.hashone.gallery.model.FolderItem
 import kotlinx.android.synthetic.main.adapter_item_folder.view.*
-import kotlin.collections.ArrayList
 
-class FolderAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    lateinit var context: Context
-    var foldersList = ArrayList<FolderItem>()
-
-    var onItemClickListener: AdapterView.OnItemClickListener? = null
-
-    constructor(context: Context, foldersList: ArrayList<FolderItem>, onItemClickListener: AdapterView.OnItemClickListener? = null) {
-        this.context = context
-        this.foldersList = foldersList
-        this.onItemClickListener = onItemClickListener
-    }
+class FolderAdapter(
+    var context: Context,
+    private var foldersList: ArrayList<FolderItem>,
+    private var onItemClickListener: AdapterView.OnItemClickListener? = null
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return  ItemViewHolder(LayoutInflater.from(context).inflate(R.layout.adapter_item_folder, parent, false))
@@ -37,9 +32,11 @@ class FolderAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder> {
             val itemViewHolder = holder as ItemViewHolder
             val folderItem = foldersList[position]
 
+            val requestBuilder: RequestBuilder<Drawable> = Glide.with(holder.itemView.context)
+                .asDrawable().sizeMultiplier(0.25f)
             Glide.with(context)
                 .load(folderItem.previewImage)
-                .thumbnail(0.25F)
+                .thumbnail(requestBuilder)
                 .apply(RequestOptions().centerCrop())
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(itemViewHolder.itemView.imageViewFolderItem)

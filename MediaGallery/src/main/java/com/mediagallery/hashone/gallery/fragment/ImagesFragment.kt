@@ -1,9 +1,9 @@
 package com.mediagallery.hashone.gallery.fragment
 
 import android.app.Activity
-import android.database.Cursor
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
@@ -29,14 +29,14 @@ class ImagesFragment : Fragment() {
 
     lateinit var mActivity: Activity
 
-    var bucketId: Long = -1L
+    private var bucketId: Long = -1L
     var folderName: String = ""
-    var folderPath: String = ""
+    private var folderPath: String = ""
 
     val imagesList = ArrayList<ImageItem>()
 
     private var isHandled: Int = 0
-    private val handlerLoadingWait = Handler()
+    private val handlerLoadingWait = Handler(Looper.getMainLooper())
     private val runnableLoadingWait =
         Runnable {
             textViewProgressMessage.text =
@@ -113,58 +113,7 @@ class ImagesFragment : Fragment() {
             }
         }
 
-        fun getImages() {
-            val projection = arrayOf(
-                MediaStore.Images.ImageColumns._ID,
-                MediaStore.Images.ImageColumns.DATA,
-                MediaStore.Images.Media.DISPLAY_NAME,
-                MediaStore.Images.Media.SIZE,
-                MediaStore.Images.Media.DATE_ADDED,
-                MediaStore.Images.Media.BUCKET_ID,
-                MediaStore.Images.Media.MIME_TYPE
-            )
-            val cursor: Cursor? =
-                mActivity.contentResolver.query(
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    projection,
-                    MediaStore.Images.Media.BUCKET_ID + " = ? ",
-                    arrayOf("$bucketId"),
-                    "${MediaStore.Images.Media.DATE_ADDED} DESC"
-                )
-            try {
-                if (cursor == null)
-                    return
-                cursor.moveToFirst()
-                do {
-                    val filePath =
-                        cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
-                    val mimeType =
-                        cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.MIME_TYPE))
-                    if (mimeType.equals("image/jpeg", ignoreCase = true)
-                        || mimeType.equals("image/png", ignoreCase = true)
-                        || mimeType.equals("image/jpg", ignoreCase = true)
-                    ) {
-                        imagesList.add(
-                            ImageItem(
-                                cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)),
-                                bucketId,
-                                cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)),
-                                filePath,
-                                0,
-                                "image"
-                            )
-                        )
-                    }
-                } while (cursor.moveToNext())
-                cursor.close()
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-            }
-        }
-
-
         private fun fetchAlbumSync(mediaType: MediaType) {
-//            albumItemMapping.clear()
             val contentUri = MediaStore.Files.getContentUri("external")
             val selection =
                 "(${MediaStore.Files.FileColumns.MEDIA_TYPE}=? OR " +
@@ -202,23 +151,23 @@ class ImagesFragment : Fragment() {
                 val bucketNameCol =
                     cursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
                 val nameCol = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME)
-                val dateCol = cursor.getColumnIndex(MediaStore.MediaColumns.DATE_MODIFIED)
                 val mimeType = cursor.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE)
-                val sizeCol = cursor.getColumnIndex(MediaStore.MediaColumns.SIZE)
                 val durationCol = cursor.getColumnIndex(MediaStore.Video.Media.DURATION)
+                /*val dateCol = cursor.getColumnIndex(MediaStore.MediaColumns.DATE_MODIFIED)
+                val sizeCol = cursor.getColumnIndex(MediaStore.MediaColumns.SIZE)
                 val widthCol = cursor.getColumnIndex(MediaStore.MediaColumns.WIDTH)
                 val heightCol = cursor.getColumnIndex(MediaStore.MediaColumns.HEIGHT)
-
+*/
                 do {
                     val path = cursor.getString(pathCol)
                     val bucketName = cursor.getString(bucketNameCol)
                     val name = cursor.getString(nameCol)
-                    val dateTime = cursor.getLong(dateCol)
                     val type = cursor.getString(mimeType)
-                    val size = cursor.getLong(sizeCol)
                     val duration = cursor.getLong(durationCol)
-                    val width = cursor.getInt(widthCol)
-                    val height = cursor.getInt(heightCol)
+                    /*     val dateTime = cursor.getLong(dateCol)
+                         val size = cursor.getLong(sizeCol)
+                         val width = cursor.getInt(widthCol)
+                         val height = cursor.getInt(heightCol)*/
 
                     if (path.isNullOrEmpty() || type.isNullOrEmpty())
                         continue
@@ -233,6 +182,7 @@ class ImagesFragment : Fragment() {
                                 ImageItem(
                                     cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)),
                                     cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)),
+                                    bucketName,
                                     name,
                                     path,
                                     duration,
@@ -245,6 +195,7 @@ class ImagesFragment : Fragment() {
                                     ImageItem(
                                         cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)),
                                         cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)),
+                                        bucketName,
                                         name,
                                         path,
                                         duration,
@@ -276,7 +227,7 @@ class ImagesFragment : Fragment() {
             recyclerViewImages.setHasFixedSize(true)
             recyclerViewImages.adapter = imageAdapter
             imageAdapter.onItemClickListener =
-                AdapterView.OnItemClickListener { parent, view, position, id ->
+                AdapterView.OnItemClickListener { _, _, _, _ ->
 
                 }
             imageAdapter.onSelectionChangeListener = object : OnSelectionChangeListener {

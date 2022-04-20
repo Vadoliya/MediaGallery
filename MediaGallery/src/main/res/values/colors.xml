@@ -3,149 +3,31 @@
     <color name="colorPrimary">#ffcc00</color>
     <color name="colorPrimaryDark">#ffcc00</color>
     <color name="colorAccent">#FFFFFF</color>
-<!--    <color name="colorAccent">#323232</color>-->
 
-    <color name="myWindowBackground1">#fbfbfb</color>
-    <color name="viewBackground">#f2f2f2</color>
 
-    <color name="font_default">#adadad</color>
-    <color name="font_style_default">#f3f1f4</color>
-    <color name="label_more">#ff9396</color>
-
-    <color name="menu_color">#c0c1c2</color>
-    <color name="template_bg">#f5f7f7</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="selected_color">#605160</color>
-    <color name="unselected_color">#b383aa</color>
-    <color name="red">#FF0000</color>
-    <color name="divider_color_2">#4f4f4f</color>
-    <color name="text_header">#7f7f7f</color>
 
-    <color name="setting_label">#605159</color>
-
-    <color name="label_back">#ffcc00</color>
-
-    <color name="intro_title">#2a394b</color>
-
-    <color name="selected_text_color">#605159</color>
-    <color name="default_text_color">#b383aa</color>
-
-    <color name="textColor">#72b5ff</color>
-    <color name="textDefaultColor">#33000000</color>
-
-    <color name="border_color">#95a5a6</color>
-
-    <color name="text_default_1">#757575</color>
     <color name="text_default_2">#cacaca</color>
 
-    <color name="selected_border">#6ab1ff</color>
-
     <color name="text_color">#9f856a</color>
-    <color name="text_color_1">#fdfdfd</color>
-    <color name="text_color_2">#9f856a</color>
-    <color name="text_color_default">#a2896f</color>
     <color name="text_color_selected">#3e3124</color>
-    <color name="text_color_deselected">#338d6b48</color>
-    <color name="text_color_deselected_1">#BABABA</color>
-    <color name="dotted_color">#604c38</color>
-
-    <color name="border_color_1">#f7f7f7</color>
-    <color name="bottom_panel_bg">#f6ede4</color>
 
     <color name="myWindowBackground">#fdf5ed</color>
-    <color name="black_trans_80">#80000000</color>
-    <color name="black_trans_47">#47cbac8c</color>
-    <color name="white_trans_80">#80FFFFFF</color>
     <color name="black_trans_50">#50000000</color>
-    <color name="white_trans_8c">#8cffffff</color>
-    <color name="gray">#808080</color>
-    <color name="divider_color">#4f4f4f</color>
-
-    <color name="dialog_positive_button">#8d6b48</color>
-    <color name="dialog_negative_button">#cbac8c</color>
-
-    <!--Feedback Screen-->
-    <color name="tab_indicator_selected">#0c25ff</color>
-    <color name="preview_bg">#dee5e6</color>
-
-    <!--Native Banner-->
-    <color name="ad_background">#eeeeee</color>
-    <color name="ad_text">#949494</color>
-    <color name="light_gray">#D3D3D3</color>
-
-    <!--update dialog-->
-    <color name="dialog_yes">#0c25ff</color>
-    <color name="dialog_yes_1">#575757</color>
-    <color name="dialog_no">#8b8b8b</color>
-    <color name="dialog_no_1">#5d2aff</color>
 
     <color name="special_yellow">#ffcc00</color>
 
-    <!--Settings-->
-    <color name="settings_update_now">#ff0000</color>
-    <color name="settings_update_dot">#e74c3c</color>
-    <color name="settings_text">#7a7a7a</color>
-    <color name="settings_language">#6161e0</color>
-
-    <!--Promo-->
-    <color name="cancel_back">#f2f2f2</color>
-    <color name="install_color">#2a32ff</color>
-
-    <!--Ad Item-->
-    <color name="card_back_1">#fdfdfd</color>
-    <color name="text_color_7">#333333</color>
-    <color name="featured_bg_47">#54d8d8d8</color>
-    <color name="featured_bg">#d8d8d8</color>
-
     <color name="theme_color_1">#fff5eb</color>
     <color name="theme_color_2">#8d6b48</color>
-    <color name="theme_color_3">#b59a7d</color>
-    <color name="theme_color_2_80">#808d6b48</color>
-
-    <color name="progress_bg_bar">#be9e7e</color>
-
-    <!--Croppy-->
-    <color name="colorCropToolbar">#1C1C1E</color>
-
-    <color name="colorCropAlpha">#ABfff5eb</color>
-    <color name="colorCropBackground">#1C1C1E</color>
-
-    <color name="colorSizeButtonUnselected">#303033</color>
-    <color name="colorSizeButtonSelected">#329AFF</color>
-
-    <color name="colorDisableLayout">#CD1C1C1E</color>
-    <color name="blue">#329AFF</color>
-
-    <color name="color_aspect_passive">#646464</color>
-    <color name="color_aspect_active">#3A98FA</color>
-
-    <color name="color_aspect_social_passive">#2B2B2B</color>
-    <color name="color_aspect_social_active">#ffffff</color>
 
     <!--Text Selection-->
     <color name="text_default">#BABABA</color>
     <color name="text_selected">#000000</color>
-    <!--Text Selection-->
-    <color name="color_deactived">#919191</color>
-    <color name="color_default">#666666</color>
-
-    <!--Filters-->
-    <color name="filter_fa">#ffd795</color>
-    <color name="filter_fb">#95bdff</color>
-    <color name="filter_fc">#ff9595</color>
-    <color name="filter_bw">#dcdcdc</color>
-    <color name="filter_fo">#ca95ff</color>
-    <!--Filters-->
-
-    <color name="disable_color">#ECECEC</color>
 
     <!-- new image picker start -->
     <color name="imagepicker_white">#FFFFFF</color>
     <color name="imagepicker_black_alpha_30">#4D000000</color>
-    <color name="imagepicker_grey">#fafafa</color>
-    <color name="imagepicker_dark">#323232</color>
-    <color name="imagepicker_teal">#009688</color>
-    <color name="imagepicker_blue">#1976D2</color>
-    <color name="whitecolorbg">#eeeeee</color>
+
 </resources>

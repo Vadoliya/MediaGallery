@@ -6,7 +6,7 @@
         android:width="1dp"
         android:color="@color/imagepicker_white" />
 
-    <solid android:color="@color/imagepicker_blue" />
+    <solid android:color="@color/theme_color_2" />
 
     <size
         android:width="24dp"

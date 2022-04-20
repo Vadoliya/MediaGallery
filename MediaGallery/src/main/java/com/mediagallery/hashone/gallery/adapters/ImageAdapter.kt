@@ -1,8 +1,10 @@
 package com.mediagallery.hashone.gallery.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,7 @@ import android.widget.AdapterView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.mediagallery.hashone.R
@@ -20,27 +23,15 @@ import com.mediagallery.hashone.gallery.callback.OnSelectionChangeListener
 import com.mediagallery.hashone.gallery.model.ImageItem
 import kotlinx.android.synthetic.main.adapter_item_media_image.view.*
 
-class ImageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    var context: Context
-    var imagesList = ArrayList<ImageItem>()
-    var isMultipleMode: Boolean = false
+class ImageAdapter(
+    var context: Context,
+    private var imagesList: ArrayList<ImageItem>,
+    var isMultipleMode: Boolean = false,
     var maxSize: Int = 1
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var onItemClickListener: AdapterView.OnItemClickListener? = null
     var onSelectionChangeListener: OnSelectionChangeListener? = null
-
-    constructor(
-        context: Context,
-        imagesList: ArrayList<ImageItem>,
-        isMultipleMode: Boolean = false,
-        maxSize: Int = 1
-    ) {
-        this.context = context
-        this.imagesList = imagesList
-        this.isMultipleMode = isMultipleMode
-        this.maxSize = maxSize
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ItemViewHolder(
@@ -48,6 +39,7 @@ class ImageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         )
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(
         holder: RecyclerView.ViewHolder,
         position: Int,
@@ -89,6 +81,7 @@ class ImageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         try {
             val itemViewHolder = holder as ItemViewHolder
@@ -97,9 +90,11 @@ class ImageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
             val selectedIndex = (context as MediaActivity).selectedIndex(imageItem)
             val isSelected = isMultipleMode && selectedIndex != -1
 
+            val requestBuilder: RequestBuilder<Drawable> = Glide.with(holder.itemView.context)
+                .asDrawable().sizeMultiplier(0.25f)
             Glide.with(context)
                 .load(imageItem.path)
-                .thumbnail(0.25F)
+                .thumbnail(requestBuilder)
                 .apply(RequestOptions().centerCrop())
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(itemViewHolder.itemView.imageViewImageItem)
@@ -157,20 +152,18 @@ class ImageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return imagesList.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun selectOrRemoveImage(image: ImageItem, position: Int) {
         if (isMultipleMode) {
             val selectedIndex = (context as MediaActivity).selectedIndex(image)
             if (selectedIndex != -1) {
                 (context as MediaActivity).removeItem(selectedIndex)
                 notifyItemChanged(position, ImageUnselected())
-//                val indexes = (context as MediaActivity).selectedIndexes(imagesList)
-//                for (index in indexes) {
-//                    notifyItemChanged(index, ImageSelectedOrUpdated())
-//                }
                 notifyDataSetChanged()
 
                 val newIntent = Intent()
                 newIntent.action = Constants.ACTION_UPDATE_FOLDER_COUNT
+                newIntent.putExtra("folderName", image.bucketName)
                 newIntent.putExtra("bucketId", image.bucketId)
                 newIntent.putExtra("add", false)
                 context.sendBroadcast(newIntent)
@@ -183,7 +176,8 @@ class ImageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                     val newIntent = Intent()
                     newIntent.action = Constants.ACTION_UPDATE_FOLDER_COUNT
-                    newIntent.putExtra("bucketId", image.bucketId)
+                    newIntent.putExtra("folderName", image.bucketName)
+                    newIntent.putExtra("bucketId", image.id)
                     newIntent.putExtra("add", true)
                     context.sendBroadcast(newIntent)
                 }
