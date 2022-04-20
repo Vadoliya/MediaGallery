@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +29,7 @@ import com.mediagallery.hashone.gallery.config.GalleryConfig
 import com.mediagallery.hashone.gallery.model.FolderItem
 import com.mediagallery.hashone.gallery.model.MediaType
 import com.mediagallery.hashone.gallery.utils.Utils
+import kotlinx.android.synthetic.main.activity_media.*
 import kotlinx.android.synthetic.main.fragment_folders.*
 import java.io.File
 
@@ -75,8 +75,7 @@ class FoldersFragment : Fragment() {
                             if (folderAdapter != null) {
                                 for (i in 0 until foldersList.size) {
                                     if (foldersList[i].name == folderName) {
-                                        foldersList[i].selectedCount =
-                                            if (add) foldersList[i].selectedCount + 1 else foldersList[i].selectedCount - 1
+                                        foldersList[i].selectedCount = if (add) foldersList[i].selectedCount + 1 else foldersList[i].selectedCount - 1
                                         folderAdapter!!.notifyItemChanged(i)
                                         break
                                     }
@@ -121,9 +120,11 @@ class FoldersFragment : Fragment() {
     private val requestMultiplePermissions =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             permissions.entries.forEach {
-                Log.e("DEBUG", "::::${it.key} = ${it.value}")
                 if (it.value) initGalleryViews()
-                else allowAccessFrame.visibility = View.VISIBLE
+                else {
+                    (mActivity as MediaActivity).fabGooglePhotos.visibility = View.GONE
+                    allowAccessFrame.visibility = View.VISIBLE
+                }
             }
         }
 
@@ -165,14 +166,17 @@ class FoldersFragment : Fragment() {
 
     private fun initViews() {
 
-        if (isReadWritePermitted()) initGalleryViews() else allowAccessFrame.visibility =
-            View.VISIBLE
+        if (isReadWritePermitted()) initGalleryViews() else {
+            (mActivity as MediaActivity).fabGooglePhotos.visibility = View.GONE
+            allowAccessFrame.visibility = View.VISIBLE
+        }
 
     }
 
 
     private fun initGalleryViews() {
         allowAccessFrame.visibility = View.GONE
+        (mActivity as MediaActivity).fabGooglePhotos.visibility = View.VISIBLE
         try {
             isMultipleMode = requireArguments().getBoolean("isMultipleMode", false)
             maxSize = requireArguments().getInt("maxSize", 1)
@@ -196,7 +200,6 @@ class FoldersFragment : Fragment() {
 
         override fun doInBackground(vararg params: Void?): Void? {
             try {
-//                getFolders()
                 fetchAlbumSync(GalleryConfig.getConfig().mediaType)
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -256,23 +259,23 @@ class FoldersFragment : Fragment() {
                 val bucketNameCol =
                     cursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
                 val mimeType = cursor.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE)
-              /*  val nameCol = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME)
-                val dateCol = cursor.getColumnIndex(MediaStore.MediaColumns.DATE_MODIFIED)
-                val sizeCol = cursor.getColumnIndex(MediaStore.MediaColumns.SIZE)
-                val durationCol = cursor.getColumnIndex(MediaStore.Video.Media.DURATION)
-                val widthCol = cursor.getColumnIndex(MediaStore.MediaColumns.WIDTH)
-                val heightCol = cursor.getColumnIndex(MediaStore.MediaColumns.HEIGHT)*/
+                /*  val nameCol = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME)
+                  val dateCol = cursor.getColumnIndex(MediaStore.MediaColumns.DATE_MODIFIED)
+                  val sizeCol = cursor.getColumnIndex(MediaStore.MediaColumns.SIZE)
+                  val durationCol = cursor.getColumnIndex(MediaStore.Video.Media.DURATION)
+                  val widthCol = cursor.getColumnIndex(MediaStore.MediaColumns.WIDTH)
+                  val heightCol = cursor.getColumnIndex(MediaStore.MediaColumns.HEIGHT)*/
 
                 do {
                     val path = cursor.getString(pathCol)
                     val bucketName = cursor.getString(bucketNameCol)
                     val type = cursor.getString(mimeType)
-                   /* val name = cursor.getString(nameCol)
-                    val dateTime = cursor.getLong(dateCol)
-                    val size = cursor.getLong(sizeCol)
-                    val duration = cursor.getLong(durationCol)
-                    val width = cursor.getInt(widthCol)
-                    val height = cursor.getInt(heightCol)*/
+                    /* val name = cursor.getString(nameCol)
+                     val dateTime = cursor.getLong(dateCol)
+                     val size = cursor.getLong(sizeCol)
+                     val duration = cursor.getLong(durationCol)
+                     val width = cursor.getInt(widthCol)
+                     val height = cursor.getInt(heightCol)*/
 
                     if (path.isNullOrEmpty() || type.isNullOrEmpty())
                         continue

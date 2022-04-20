@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity() {
             if (it.resultCode == Activity.RESULT_OK) {
                 val selectedMedia =
                     it.data?.getSerializableExtra(KeyUtils.SELECTED_MEDIA) as ArrayList<*>
-                Log.e("receiveData", "selectedMedia:$selectedMedia")
                 Toast.makeText(
                     this,
                     "Select ${selectedMedia.size}  $mediaType files \n${selectedMedia}",
