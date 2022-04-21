@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -39,6 +40,9 @@ class MediaActivity : AppCompatActivity() {
     var maxSize: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
         super.onCreate(savedInstanceState)
         activity = this@MediaActivity
         setContentView(R.layout.activity_media)
@@ -69,11 +73,11 @@ class MediaActivity : AppCompatActivity() {
             bundle.putInt("maxSize", maxSize)
             loadFragment(FoldersFragment(), bundle, false)
 
-            textViewTitle.text = when (GalleryConfig.getConfig().mediaType) {
+          /*  textViewTitle.text = when (GalleryConfig.getConfig().mediaType) {
                 MediaType.IMAGE -> getString(R.string.label_photos)
                 MediaType.VIDEO -> getString(R.string.label_video)
                 MediaType.IMAGE_VIDEO -> getString(R.string.label_media)
-            }
+            }*/
             textViewTotalCount.text = (if (maxSize > 1) {
                 " (" + selectedImagesList.size + "/" + maxSize + ")"
             } else "")

@@ -4,33 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="0.5dp"
-    android:background="@color/myWindowBackground">
+    android:background="@color/white">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageViewImageItem"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:adjustViewBounds="true"
-        android:background="#d7d7d7"
         android:foreground="@drawable/textview_transparent_ripple"
         android:scaleType="centerCrop"
+        android:src="@drawable/ic_link_cont_default_img_1_5x"
         app:layout_constraintDimensionRatio="H, 1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <com.mediagallery.hashone.gallery.utils.MyTextView
         android:id="@+id/textViewImageCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="6dp"
         android:background="@drawable/imagepicker_indicator_bg"
-        android:fontFamily="@font/nunito_bold"
+        android:fontFamily="@font/roboto_bold"
         android:gravity="center"
         android:includeFontPadding="false"
-        android:textColor="@color/white"
-        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,28 +42,27 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="3dp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/video"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@android:drawable/ic_media_play"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_video"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-        <TextView
+        <com.mediagallery.hashone.gallery.utils.MyTextView
             android:id="@+id/durationLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/video"
-            android:text="00:00"
+            android:fontFamily="@font/roboto_bold"
             android:padding="3dp"
-            android:shadowRadius="3"
             android:shadowColor="@color/black"
+            android:shadowRadius="3"
             android:textColor="@android:color/white"
             android:textSize="10sp"
             android:textStyle="bold"

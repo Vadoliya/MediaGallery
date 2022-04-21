@@ -15,6 +15,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.view.ViewOutlineProvider
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -25,6 +26,7 @@ import com.mediagallery.hashone.gallery.Constants
 import com.mediagallery.hashone.gallery.CoroutineAsyncTask
 import com.mediagallery.hashone.gallery.MediaActivity
 import com.mediagallery.hashone.gallery.adapters.FolderAdapter
+import com.mediagallery.hashone.gallery.adnetworks.AdmobUtils
 import com.mediagallery.hashone.gallery.config.GalleryConfig
 import com.mediagallery.hashone.gallery.model.FolderItem
 import com.mediagallery.hashone.gallery.model.MediaType
@@ -32,6 +34,7 @@ import com.mediagallery.hashone.gallery.utils.Utils
 import kotlinx.android.synthetic.main.activity_media.*
 import kotlinx.android.synthetic.main.fragment_folders.*
 import java.io.File
+
 
 class FoldersFragment : Fragment() {
 
@@ -75,12 +78,14 @@ class FoldersFragment : Fragment() {
                             if (folderAdapter != null) {
                                 for (i in 0 until foldersList.size) {
                                     if (foldersList[i].name == folderName) {
-                                        foldersList[i].selectedCount = if (add) foldersList[i].selectedCount + 1 else foldersList[i].selectedCount - 1
+                                        foldersList[i].selectedCount =
+                                            if (add) foldersList[i].selectedCount + 1 else foldersList[i].selectedCount - 1
                                         folderAdapter!!.notifyItemChanged(i)
                                         break
                                     }
                                 }
                             }
+                            loadBannerAds()
                         }
                     }
                 }
@@ -210,6 +215,24 @@ class FoldersFragment : Fragment() {
         override fun onPostExecute(result: Void?) {
             super.onPostExecute(result)
             try {
+                var totalImage = 0
+                foldersList.forEach { totalImage += it.count }
+                if (imagesList.size > 0) {
+                    foldersList.add(
+                        0,
+                        FolderItem(
+                            0,
+                            when (GalleryConfig.getConfig().mediaType) {
+                                MediaType.IMAGE -> getString(R.string.all_photos)
+                                MediaType.VIDEO -> getString(R.string.all_video)
+                                MediaType.IMAGE_VIDEO -> getString(R.string.all_media)
+                            },
+                            previewImage = foldersList[foldersList.size - 1].previewImage,
+                            count = totalImage
+                        )
+                    )
+                }
+
                 if (isHandled == 0)
                     handlerLoadingWait.removeCallbacks(runnableLoadingWait)
                 else if (isHandled == 1)
@@ -322,7 +345,6 @@ class FoldersFragment : Fragment() {
                             } else {
                                 for (i in foldersList.indices) {
                                     if (foldersList[i].path == folder) {
-                                        //foldersList[i].previewImage = filePath
                                         foldersList[i].increaseCount()
                                     }
                                 }
@@ -353,6 +375,8 @@ class FoldersFragment : Fragment() {
                 (mActivity as MediaActivity).loadFragment(ImagesFragment(), newBundle, true)
             }
             recyclerViewFolders.adapter = folderAdapter
+            loadBannerAds()
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -367,4 +391,17 @@ class FoldersFragment : Fragment() {
         mActivity.unregisterReceiver(broadcastReceiver)
         super.onDestroyView()
     }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            loadBannerAds()
+        }
+    }
+
+    private fun loadBannerAds() {
+        val admobUtils = AdmobUtils(requireActivity())
+        admobUtils.loadBannerAd(bannerad_layout, GalleryConfig.getConfig().admobId)
+    }
+
 }

@@ -19,7 +19,10 @@ data class GalleryConfig(
     var minTime: Long = KeyUtils.DEFAULT_DURATION,
     var maxTime: Long = KeyUtils.DEFAULT_DURATION,
     var supportedFileType: MutableList<String> = mutableListOf(),
-    var isCrop: Boolean = false
+    var isCrop: Boolean = false,
+    var fontFamilyName: String = "Tinos-Bold.ttf",
+    var fontResource: Int = -1,
+    var admobId: String = ""
 ) : Parcelable {
     companion object {
 
@@ -39,6 +42,9 @@ data class GalleryConfig(
                 maxTime = lassiConfig.maxTime
                 supportedFileType = lassiConfig.supportedFileType
                 isCrop = lassiConfig.isCrop
+                fontFamilyName = lassiConfig.fontFamilyName
+                fontResource = lassiConfig.fontResource
+                admobId = lassiConfig.admobId
             }
         }
 

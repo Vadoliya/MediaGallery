@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
+import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -17,6 +17,7 @@ import com.mediagallery.hashone.R
 import com.mediagallery.hashone.gallery.CoroutineAsyncTask
 import com.mediagallery.hashone.gallery.MediaActivity
 import com.mediagallery.hashone.gallery.adapters.ImageAdapter
+import com.mediagallery.hashone.gallery.adnetworks.AdmobUtils
 import com.mediagallery.hashone.gallery.callback.OnSelectionChangeListener
 import com.mediagallery.hashone.gallery.config.GalleryConfig
 import com.mediagallery.hashone.gallery.model.ImageItem
@@ -25,9 +26,11 @@ import kotlinx.android.synthetic.main.activity_media.*
 import kotlinx.android.synthetic.main.fragment_images.*
 import java.io.File
 
+
 class ImagesFragment : Fragment() {
 
     lateinit var mActivity: Activity
+    private val mDetector: GestureDetector? = null
 
     private var bucketId: Long = -1L
     var folderName: String = ""
@@ -176,8 +179,8 @@ class ImagesFragment : Fragment() {
                     if (!file.exists() || !file.isFile)
                         continue
 
-                    if (folderName == bucketName) {
-                        if (mediaType == MediaType.IMAGE_VIDEO) {
+                    if (mediaType == MediaType.IMAGE_VIDEO) {
+                        if (folderName == bucketName) {
                             imagesList.add(
                                 ImageItem(
                                     cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)),
@@ -189,8 +192,37 @@ class ImagesFragment : Fragment() {
                                     type
                                 )
                             )
-                        } else {
-                            if (type.contains(mediaType.value)) {
+                        }
+                        if (bucketId == 0L) {
+                            imagesList.add(
+                                ImageItem(
+                                    cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)),
+                                    cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)),
+                                    bucketName,
+                                    name,
+                                    path,
+                                    duration,
+                                    type
+                                )
+                            )
+                        }
+
+                    } else {
+                        if (type.contains(mediaType.value)) {
+                            if (folderName == bucketName) {
+                                imagesList.add(
+                                    ImageItem(
+                                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)),
+                                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)),
+                                        bucketName,
+                                        name,
+                                        path,
+                                        duration,
+                                        type
+                                    )
+                                )
+                            }
+                            if (bucketId == 0L) {
                                 imagesList.add(
                                     ImageItem(
                                         cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)),
@@ -222,14 +254,17 @@ class ImagesFragment : Fragment() {
                 isMultipleMode = (mActivity as MediaActivity).isMultipleMode,
                 maxSize = (mActivity as MediaActivity).maxSize
             )
+            /*val layoutManager: GridLayoutManager = GridLayoutManager(mActivity, 3)
+            layoutManager.setSpanSizeLookup(object : SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    return if (position > 3) 1 else 2
+                }
+            })
+            recyclerViewImages.layoutManager = layoutManager*/
             recyclerViewImages.layoutManager =
                 GridLayoutManager(mActivity, 3, RecyclerView.VERTICAL, false)
             recyclerViewImages.setHasFixedSize(true)
             recyclerViewImages.adapter = imageAdapter
-            imageAdapter.onItemClickListener =
-                AdapterView.OnItemClickListener { _, _, _, _ ->
-
-                }
             imageAdapter.onSelectionChangeListener = object : OnSelectionChangeListener {
                 override fun onSelectedImagesChanged(selectedImages: ArrayList<ImageItem>) {
                     try {
@@ -255,6 +290,7 @@ class ImagesFragment : Fragment() {
                     }
                 }
             }
+            loadBannerAds()
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -263,11 +299,16 @@ class ImagesFragment : Fragment() {
 
     override fun onDestroyView() {
         (mActivity as MediaActivity).textViewTitle.text =
-            requireActivity().getString(R.string.label_photos)
+            requireActivity().getString(R.string.label_gallery)
         if (isHandled == 0)
             handlerLoadingWait.removeCallbacks(runnableLoadingWait)
         else if (isHandled == 1)
             handlerLoadingWait.removeCallbacks(runnableLoadingWait1)
         super.onDestroyView()
+    }
+
+    private fun loadBannerAds() {
+        val admobUtils = AdmobUtils(mActivity)
+        admobUtils.loadBannerAd(bannerad_layout, GalleryConfig.getConfig().admobId)
     }
 }

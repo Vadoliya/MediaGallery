@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">MediaGallery</string>
+
+    <array name="font">
+        <item>"1"</item>
+        <item>"2"</item>
+        <item>"3"</item>
+        <item>"4"</item>
+        <item>"5"</item>
+    </array>
 </resources>

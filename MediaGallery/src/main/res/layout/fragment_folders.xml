@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:clickable="true"
     android:focusable="true">
 
@@ -14,7 +13,7 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bannerad_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -46,10 +45,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:fontFamily="@font/nunito_regular"
+            android:fontFamily="@font/roboto_regular"
             android:gravity="center"
             android:text="@string/loading_photos"
-            android:textColor="@color/theme_color_2"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -69,7 +68,7 @@
             android:orientation="vertical"
             android:padding="30dp">
 
-            <TextView
+            <com.mediagallery.hashone.gallery.utils.MyTextView
                 android:id="@+id/galleryIllusTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -78,10 +77,10 @@
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
                 android:text="@string/permission_title"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
 
-            <TextView
+            <com.mediagallery.hashone.gallery.utils.MyTextView
                 android:id="@+id/galleryIllusContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,25 +89,34 @@
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
                 android:text="@string/require_permission"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
 
-            <TextView
+            <com.mediagallery.hashone.gallery.utils.MyTextView
                 android:id="@+id/allowAccessButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="@font/roboto_bold"
                 android:paddingStart="20dp"
                 android:paddingTop="5dp"
                 android:paddingEnd="20dp"
                 android:paddingBottom="5dp"
                 android:text="@string/allow_access"
-                android:textColor="@color/text_color"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
 
         </LinearLayout>
 
     </FrameLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bannerad_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

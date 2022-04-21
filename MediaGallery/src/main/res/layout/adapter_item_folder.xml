@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="80dp"
-    android:background="@color/myWindowBackground"
+    android:minHeight="88dp"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,11 +18,13 @@
             android:id="@+id/albumthumbnailcard"
             android:layout_width="64dp"
             android:layout_height="64dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
             android:elevation="1dp"
             app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="5dp"
+            app:cardCornerRadius="8dp"
             app:cardElevation="1dp"
-            app:cardUseCompatPadding="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -48,45 +50,45 @@
             app:layout_constraintStart_toEndOf="@+id/albumthumbnailcard"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.mediagallery.hashone.gallery.utils.MyTextView
                 android:id="@+id/textViewFolderName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:layout_marginBottom="10dp"
                 android:gravity="center_vertical|start"
-                android:fontFamily="@font/nunito_bold"
-                android:textColor="@color/text_color"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_medium"
                 app:layout_constraintStart_toEndOf="@+id/imageViewFolderItem"
                 app:layout_constraintEnd_toStartOf="@+id/textViewFilesCount"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.mediagallery.hashone.gallery.utils.MyTextView
                 android:id="@+id/textViewFilesCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:fontFamily="@font/nunito_bold"
-                android:textColor="@color/text_color"
+                android:textColor="@color/black"
                 android:textSize="14sp"
+                android:fontFamily="@font/roboto_regular"
                 app:layout_constraintStart_toEndOf="@+id/textViewFolderName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.mediagallery.hashone.gallery.utils.MyTextView
             android:id="@+id/textViewSelectedCount"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="5dp"
             android:layout_toStartOf="@+id/imageView"
             android:background="@drawable/drawable_circle"
-            android:fontFamily="@font/nunito_bold"
+            android:fontFamily="@font/roboto_bold"
             android:gravity="center"
-            android:textColor="@color/theme_color_1"
+            android:textColor="@color/white"
+            android:textSize="14sp"
             android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent"
@@ -96,6 +98,7 @@
             android:id="@+id/imageView"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_marginEnd="16dp"
             android:src="@drawable/ic_right_arrow"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

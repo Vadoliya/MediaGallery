@@ -2,9 +2,9 @@
     <string name="require_permission">This app needs storage permission.</string>
     <string name="permission_title">Uh oh!</string>
     <string name="allow_access">Allow Access</string>
-    <string name="label_photos">Photos</string>
     <string name="label_video">Video</string>
     <string name="label_media">Media</string>
+    <string name="label_gallery">Gallery</string>
 
     <string name="loading_photos">Loading …</string>
     <string name="photos_taking_long_time">It is taking bit long.</string>
@@ -16,4 +16,10 @@
 
     <string name="label_done">Done</string>
     <string name="label_retry">Retry</string>
+    <string name="all_photos">All Photos</string>
+    <string name="all_video">All Video</string>
+    <string name="all_media">All Media</string>
+
+    <!--Admob ids-->
+    <string name="admob_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
 </resources>
