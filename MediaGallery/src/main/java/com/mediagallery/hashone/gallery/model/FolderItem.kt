@@ -8,7 +8,8 @@ data class FolderItem(
     var path: String = "",
     var previewImage: String = "",
     var count: Int = 0,
-    var selectedCount: Int = 0
+    var selectedCount: Int = 0,
+    var albumPhotos: ArrayList<ImageItem> = ArrayList()
 ): Serializable {
 
     fun increaseCount() {

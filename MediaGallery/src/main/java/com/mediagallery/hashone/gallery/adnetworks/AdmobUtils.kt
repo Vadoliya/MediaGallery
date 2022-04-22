@@ -26,20 +26,9 @@ class AdmobUtils(private var context: Context) {
             adView.loadAd(getAdRequest())
 
             adView.adListener = object : AdListener() {
-                override fun onAdClicked() {
-                    super.onAdClicked()
-                }
-
-                override fun onAdClosed() {
-                    super.onAdClosed()
-                }
 
                 override fun onAdFailedToLoad(p0: LoadAdError?) {
                     super.onAdFailedToLoad(p0)
-                }
-
-                override fun onAdImpression() {
-                    super.onAdImpression()
                 }
 
                 override fun onAdLoaded() {
@@ -53,7 +42,7 @@ class AdmobUtils(private var context: Context) {
                             }
                             if (adView != null) {
                                 viewGroup.addView(adView)
-                                Utils.fadeInAndShowView(viewGroup!!, 400)
+                                Utils.fadeInAndShowView(viewGroup, 400)
                             }
 
                         }
@@ -63,9 +52,6 @@ class AdmobUtils(private var context: Context) {
                     Utils.setMargins(context,(context as MediaActivity).fabGooglePhotos,0,0,24,adView.adSize.height+24)
                 }
 
-                override fun onAdOpened() {
-                    super.onAdOpened()
-                }
             }
 //            }
         } catch (e: Exception) {

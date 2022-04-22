@@ -54,7 +54,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
@@ -110,6 +110,27 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/spFont" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edtDoneText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="Done Text"
+            app:layout_constraintEnd_toEndOf="@+id/cbBannerAds"
+            app:layout_constraintStart_toStartOf="@+id/cbBannerAds"
+            app:layout_constraintTop_toBottomOf="@+id/cbBannerAds" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edtLoadingText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="Loading Text"
+            app:layout_constraintEnd_toEndOf="@+id/edtDoneText"
+            app:layout_constraintStart_toStartOf="@+id/edtDoneText"
+            app:layout_constraintTop_toBottomOf="@+id/edtDoneText" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button

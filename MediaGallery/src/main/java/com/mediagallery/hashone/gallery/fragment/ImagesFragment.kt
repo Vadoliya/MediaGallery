@@ -24,6 +24,9 @@ import com.mediagallery.hashone.gallery.model.ImageItem
 import com.mediagallery.hashone.gallery.model.MediaType
 import kotlinx.android.synthetic.main.activity_media.*
 import kotlinx.android.synthetic.main.fragment_images.*
+import kotlinx.android.synthetic.main.fragment_images.bannerad_layout
+import kotlinx.android.synthetic.main.fragment_images.layoutContentLoading
+import kotlinx.android.synthetic.main.fragment_images.textViewProgressMessage
 import java.io.File
 
 
@@ -36,7 +39,7 @@ class ImagesFragment : Fragment() {
     var folderName: String = ""
     private var folderPath: String = ""
 
-    val imagesList = ArrayList<ImageItem>()
+    var imagesList = ArrayList<ImageItem>()
 
     private var isHandled: Int = 0
     private val handlerLoadingWait = Handler(Looper.getMainLooper())
@@ -77,10 +80,16 @@ class ImagesFragment : Fragment() {
             bucketId = requireArguments().getLong("bucketId", -1L)
             folderName = requireArguments().getString("folderName", "")
             folderPath = requireArguments().getString("folderPath", "")
+            imagesList = requireArguments().getSerializable("imageList") as ArrayList<ImageItem>
 
             (mActivity as MediaActivity).textViewTitle.text = folderName
 
-            GetFoldersTask().execute()
+            if (GalleryConfig.getConfig().loadingText.isNotEmpty()) {
+                textViewProgressMessage.text = GalleryConfig.getConfig().loadingText
+            }
+            setAdapter()
+
+//            GetFoldersTask().execute()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -291,6 +300,7 @@ class ImagesFragment : Fragment() {
                 }
             }
             loadBannerAds()
+            layoutContentLoading.visibility = View.GONE
 
         } catch (e: Exception) {
             e.printStackTrace()

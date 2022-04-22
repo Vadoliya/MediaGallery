@@ -22,6 +22,8 @@ data class GalleryConfig(
     var isCrop: Boolean = false,
     var fontFamilyName: String = "Tinos-Bold.ttf",
     var fontResource: Int = -1,
+    var doneText: String = "",
+    var loadingText: String = "",
     var admobId: String = ""
 ) : Parcelable {
     companion object {
@@ -45,6 +47,8 @@ data class GalleryConfig(
                 fontFamilyName = lassiConfig.fontFamilyName
                 fontResource = lassiConfig.fontResource
                 admobId = lassiConfig.admobId
+                doneText = lassiConfig.doneText
+                loadingText = lassiConfig.loadingText
             }
         }
 

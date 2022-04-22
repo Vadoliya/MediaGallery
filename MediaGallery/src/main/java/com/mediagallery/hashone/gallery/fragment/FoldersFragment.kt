@@ -15,7 +15,6 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.MarginLayoutParams
 import android.view.ViewOutlineProvider
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -29,6 +28,7 @@ import com.mediagallery.hashone.gallery.adapters.FolderAdapter
 import com.mediagallery.hashone.gallery.adnetworks.AdmobUtils
 import com.mediagallery.hashone.gallery.config.GalleryConfig
 import com.mediagallery.hashone.gallery.model.FolderItem
+import com.mediagallery.hashone.gallery.model.ImageItem
 import com.mediagallery.hashone.gallery.model.MediaType
 import com.mediagallery.hashone.gallery.utils.Utils
 import kotlinx.android.synthetic.main.activity_media.*
@@ -42,6 +42,8 @@ class FoldersFragment : Fragment() {
 
     val foldersList = ArrayList<FolderItem>()
     val imagesList = ArrayList<String>()
+    val albumPhotosList = ArrayList<ImageItem>()
+    val allPhotosList = ArrayList<ImageItem>()
 
     var folderAdapter: FolderAdapter? = null
 
@@ -120,6 +122,7 @@ class FoldersFragment : Fragment() {
         val intentFilter = IntentFilter()
         intentFilter.addAction(Constants.ACTION_UPDATE_FOLDER_COUNT)
         mActivity.registerReceiver(broadcastReceiver, intentFilter)
+
     }
 
     private val requestMultiplePermissions =
@@ -142,26 +145,8 @@ class FoldersFragment : Fragment() {
                 Manifest.permission.READ_EXTERNAL_STORAGE
             )
         )
-
-        /*   requestPermissions(
-               arrayOf(
-                   Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                   Manifest.permission.READ_EXTERNAL_STORAGE
-               ), PERMISSIONS_READ_WRITE
-           )*/
         return true
     }
-
-/*    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        when (requestCode) {
-            PERMISSIONS_READ_WRITE -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) initGalleryViews()
-            else allowAccessFrame.visibility = View.VISIBLE
-        }
-    }*/
 
     private fun isReadWritePermitted(): Boolean =
         (context?.checkCallingOrSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && context?.checkCallingOrSelfPermission(
@@ -176,6 +161,9 @@ class FoldersFragment : Fragment() {
             allowAccessFrame.visibility = View.VISIBLE
         }
 
+        if (GalleryConfig.getConfig().loadingText.isNotEmpty()) {
+            textViewProgressMessage.text = GalleryConfig.getConfig().loadingText
+        }
     }
 
 
@@ -187,7 +175,7 @@ class FoldersFragment : Fragment() {
             maxSize = requireArguments().getInt("maxSize", 1)
 
             layoutContentLoading.visibility = View.VISIBLE
-            handlerLoadingWait.postDelayed(runnableLoadingWait, 3 * 1000L)
+//            handlerLoadingWait.postDelayed(runnableLoadingWait, 3 * 1000L)
 
             GetFoldersTask().execute()
         } catch (e: Exception) {
@@ -228,7 +216,8 @@ class FoldersFragment : Fragment() {
                                 MediaType.IMAGE_VIDEO -> getString(R.string.all_media)
                             },
                             previewImage = foldersList[foldersList.size - 1].previewImage,
-                            count = totalImage
+                            count = totalImage,
+                            albumPhotos = allPhotosList
                         )
                     )
                 }
@@ -282,21 +271,25 @@ class FoldersFragment : Fragment() {
                 val bucketNameCol =
                     cursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
                 val mimeType = cursor.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE)
-                /*  val nameCol = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME)
+                val nameCol = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME)
+                val durationCol = cursor.getColumnIndex(MediaStore.Video.Media.DURATION)
+                /*
                   val dateCol = cursor.getColumnIndex(MediaStore.MediaColumns.DATE_MODIFIED)
                   val sizeCol = cursor.getColumnIndex(MediaStore.MediaColumns.SIZE)
-                  val durationCol = cursor.getColumnIndex(MediaStore.Video.Media.DURATION)
+
                   val widthCol = cursor.getColumnIndex(MediaStore.MediaColumns.WIDTH)
                   val heightCol = cursor.getColumnIndex(MediaStore.MediaColumns.HEIGHT)*/
 
                 do {
                     val path = cursor.getString(pathCol)
-                    val bucketName = cursor.getString(bucketNameCol)
+                    val bucketName = if (cursor.getString(bucketNameCol)!=null) cursor.getString(bucketNameCol) else ""
                     val type = cursor.getString(mimeType)
-                    /* val name = cursor.getString(nameCol)
+                    val name = cursor.getString(nameCol)
+                    val duration = cursor.getLong(durationCol)
+                    /*
                      val dateTime = cursor.getLong(dateCol)
                      val size = cursor.getLong(sizeCol)
-                     val duration = cursor.getLong(durationCol)
+
                      val width = cursor.getInt(widthCol)
                      val height = cursor.getInt(heightCol)*/
 
@@ -315,6 +308,15 @@ class FoldersFragment : Fragment() {
                         1
                     )
 
+                    val imageItem = ImageItem(
+                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)),
+                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)),
+                        bucketName,
+                        name,
+                        path,
+                        duration,
+                        type
+                    )
                     // Put the current media in the corresponding album
                     val folder = file.parentFile?.absolutePath ?: ""
 
@@ -323,32 +325,44 @@ class FoldersFragment : Fragment() {
                     if (mediaType == MediaType.IMAGE_VIDEO) {
                         if (!imagesList.contains(folder)) {
                             imagesList.add(folder)
+                            albumPhotosList.clear()
+
                             folderItem.path = folder
                             folderItem.name = bucketName
                             folderItem.previewImage = path
+                            folderItem.albumPhotos.add(imageItem)
+//                            folderItem.albumPhotos = albumPhotosList
                             foldersList.add(folderItem)
                         } else {
                             for (i in foldersList.indices) {
                                 if (foldersList[i].path == folder) {
                                     foldersList[i].increaseCount()
+                                    foldersList[i].albumPhotos.add(imageItem)
                                 }
                             }
                         }
+
+                        allPhotosList.add(imageItem)
                     } else {
                         if (type.contains(mediaType.value)) {
                             if (!imagesList.contains(folder)) {
                                 imagesList.add(folder)
+                                albumPhotosList.clear()
                                 folderItem.path = folder
                                 folderItem.name = bucketName
                                 folderItem.previewImage = path
+                                folderItem.albumPhotos.add(imageItem)
                                 foldersList.add(folderItem)
                             } else {
                                 for (i in foldersList.indices) {
                                     if (foldersList[i].path == folder) {
                                         foldersList[i].increaseCount()
+                                        foldersList[i].albumPhotos.add(imageItem)
+
                                     }
                                 }
                             }
+                            allPhotosList.add(imageItem)
                         }
                     }
                 } while (cursor.moveToNext())
@@ -372,6 +386,7 @@ class FoldersFragment : Fragment() {
                 newBundle.putLong("bucketId", foldersList[position].id)
                 newBundle.putString("folderName", foldersList[position].name)
                 newBundle.putString("folderPath", foldersList[position].path)
+                newBundle.putSerializable("imageList", foldersList[position].albumPhotos)
                 (mActivity as MediaActivity).loadFragment(ImagesFragment(), newBundle, true)
             }
             recyclerViewFolders.adapter = folderAdapter

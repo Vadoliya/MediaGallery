@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         window.decorView.systemUiVisibility =
-            View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;//  set status text dark
+            View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR//  set status text dark
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -55,6 +55,8 @@ class MainActivity : AppCompatActivity() {
                         }
                     )
                     .setBannerAdsId(if (cbBannerAds.isChecked) "ca-app-pub-3940256099942544/6300978111" else "")
+                    .setDoneText(edtDoneText.text.toString())
+                    .setLoadingText(edtLoadingText.text.toString())
                     .build()
             )
             mediaType = "IMAGE"
@@ -75,6 +77,8 @@ class MainActivity : AppCompatActivity() {
                         }
                     )
                     .setBannerAdsId(if (cbBannerAds.isChecked) "ca-app-pub-3940256099942544/6300978111" else "")
+                    .setDoneText(edtDoneText.text.toString())
+                    .setLoadingText(edtLoadingText.text.toString())
                     .build()
             )
             mediaType = "VIDEO"
@@ -94,6 +98,8 @@ class MainActivity : AppCompatActivity() {
                         }
                     )
                     .setBannerAdsId(if (cbBannerAds.isChecked) "ca-app-pub-3940256099942544/6300978111" else "")
+                    .setDoneText(edtDoneText.text.toString())
+                    .setLoadingText(edtLoadingText.text.toString())
                     .build()
             )
             mediaType = "IMAGE & VIDEO"

@@ -40,7 +40,7 @@
             android:layout_marginBottom="4dp"
             android:theme="@style/AppCompatAlertDialogStyle" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.mediagallery.hashone.gallery.utils.MyTextView
             android:id="@+id/textViewProgressMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

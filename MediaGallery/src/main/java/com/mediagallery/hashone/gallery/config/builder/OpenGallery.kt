@@ -126,6 +126,22 @@ class OpenGallery(private val context: Context) {
     }
 
     /**
+     * Set Done Text
+     */
+    fun setDoneText(doneString: String): OpenGallery {
+        lassiConfig.doneText = doneString
+        return this
+    }
+
+    /**
+     * Set Loading Text
+     */
+    fun setLoadingText(loadingString: String): OpenGallery {
+        lassiConfig.loadingText = loadingString
+        return this
+    }
+
+    /**
      * Set Font
      */
     fun setBannerAdsId(admobId: String): OpenGallery {

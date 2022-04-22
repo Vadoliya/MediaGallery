@@ -67,17 +67,22 @@ class MediaActivity : AppCompatActivity() {
             maxSize = GalleryConfig.getConfig().maxCount
 //            requestCode = intent!!.extras!!.getInt("requestCode", 0)
 
-
             val bundle = Bundle()
             bundle.putBoolean("isMultipleMode", isMultipleMode)
             bundle.putInt("maxSize", maxSize)
             loadFragment(FoldersFragment(), bundle, false)
 
-          /*  textViewTitle.text = when (GalleryConfig.getConfig().mediaType) {
-                MediaType.IMAGE -> getString(R.string.label_photos)
-                MediaType.VIDEO -> getString(R.string.label_video)
-                MediaType.IMAGE_VIDEO -> getString(R.string.label_media)
-            }*/
+            /*  textViewTitle.text = when (GalleryConfig.getConfig().mediaType) {
+                  MediaType.IMAGE -> getString(R.string.label_photos)
+                  MediaType.VIDEO -> getString(R.string.label_video)
+                  MediaType.IMAGE_VIDEO -> getString(R.string.label_media)
+              }*/
+
+
+            if (GalleryConfig.getConfig().doneText.isNotEmpty()) {
+                textViewDone.text = GalleryConfig.getConfig().doneText
+            }
+
             textViewTotalCount.text = (if (maxSize > 1) {
                 " (" + selectedImagesList.size + "/" + maxSize + ")"
             } else "")
@@ -268,7 +273,6 @@ class MediaActivity : AppCompatActivity() {
 
 
     fun finishPickImages(images: ArrayList<ImageItem>) {
-
         val imageList = ArrayList<String>()
         images.forEach { imageList.add(it.path) }
         val newIntent = Intent()
