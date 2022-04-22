@@ -60,7 +60,7 @@ class AdmobUtils(private var context: Context) {
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
-                    Utils.setMargins(context,(context as MediaActivity).fabGooglePhotos,0,0,24,74)
+                    Utils.setMargins(context,(context as MediaActivity).fabGooglePhotos,0,0,24,adView.adSize.height+24)
                 }
 
                 override fun onAdOpened() {

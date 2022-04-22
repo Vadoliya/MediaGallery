@@ -1,6 +1,10 @@
 package com.mediagallery.hashone
 
 import android.app.Activity
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
@@ -10,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.mediagallery.hashone.gallery.config.builder.OpenGallery
 import com.mediagallery.hashone.gallery.model.MediaType
 import com.mediagallery.hashone.gallery.utils.KeyUtils
+import com.mediagallery.hashone.gallery.utils.Utils
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -18,7 +23,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;//  set status text dark
+        window.decorView.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;//  set status text dark
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,7 +33,8 @@ class MainActivity : AppCompatActivity() {
         for (i in 1 until 51) {
             intArray.add(i)
         }
-        spCount.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, intArray)
+        spCount.adapter =
+            ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, intArray)
 
         val fontList = arrayOf("Default", "Nunito Bold", "Roboto Medium", "Tinos Bold")
         spFont.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, fontList)

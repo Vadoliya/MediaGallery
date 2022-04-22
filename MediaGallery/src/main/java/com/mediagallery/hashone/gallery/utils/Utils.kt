@@ -58,7 +58,7 @@ object Utils {
 
     fun isGooglePhotosAppInstalled(context: Context, packageName: String): Boolean {
         try {
-            context.packageManager.getPackageInfo(packageName, 0)
+            context.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
             return false
