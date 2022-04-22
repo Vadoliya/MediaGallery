@@ -24,7 +24,7 @@ import com.mediagallery.hashone.gallery.config.GalleryConfig
 import com.mediagallery.hashone.gallery.fragment.FoldersFragment
 import com.mediagallery.hashone.gallery.model.ImageItem
 import com.mediagallery.hashone.gallery.model.MediaType
-import com.mediagallery.hashone.gallery.utils.KeyUtils
+import com.mediagallery.hashone.gallery.utils.MediaConstant
 import com.mediagallery.hashone.gallery.utils.URIPathHelper
 import com.mediagallery.hashone.gallery.utils.Utils
 import kotlinx.android.synthetic.main.activity_media.*
@@ -250,8 +250,8 @@ class MediaActivity : AppCompatActivity() {
                             val images = ArrayList<String>()
                             images.add(filePath!!)
                             val intent = Intent()
-                            intent.putExtra(KeyUtils.PATHS, images)
-                            intent.putExtra(KeyUtils.SELECTED_MEDIA, images)
+                            intent.putExtra(MediaConstant.MEDIA_PATHS, images)
+                            intent.putExtra(MediaConstant.SELECTED_MEDIA, images)
                             activity.setResult(Activity.RESULT_OK, intent)
                             activity.finish()
                         }
@@ -261,8 +261,8 @@ class MediaActivity : AppCompatActivity() {
                         val images = ArrayList<String>()
                         images.add(filePath!!)
                         val intent = Intent()
-                        intent.putExtra(KeyUtils.PATHS, images)
-                        intent.putExtra(KeyUtils.SELECTED_MEDIA, images)
+                        intent.putExtra(MediaConstant.MEDIA_PATHS, images)
+                        intent.putExtra(MediaConstant.SELECTED_MEDIA, images)
                         activity.setResult(Activity.RESULT_OK, intent)
                         activity.finish()
                     }
@@ -276,8 +276,8 @@ class MediaActivity : AppCompatActivity() {
         val imageList = ArrayList<String>()
         images.forEach { imageList.add(it.path) }
         val newIntent = Intent()
-        newIntent.putExtra(KeyUtils.PATHS, imageList)
-        newIntent.putExtra(KeyUtils.SELECTED_MEDIA, imageList)
+        newIntent.putExtra(MediaConstant.MEDIA_PATHS, imageList)
+        newIntent.putExtra(MediaConstant.SELECTED_MEDIA, imageList)
         setResult(RESULT_OK, newIntent)
         finish()
     }

@@ -3,7 +3,7 @@ package com.mediagallery.hashone.gallery.config
 import android.graphics.Color
 import android.os.Parcelable
 import com.mediagallery.hashone.gallery.model.MediaType
-import com.mediagallery.hashone.gallery.utils.KeyUtils
+import com.mediagallery.hashone.gallery.utils.MediaConstant
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -14,10 +14,10 @@ data class GalleryConfig(
     var progressBarColor: Int = Color.BLACK,
     var selectedMedias: ArrayList<String> = ArrayList(),
     var mediaType: MediaType = MediaType.IMAGE,
-    var maxCount: Int = KeyUtils.DEFAULT_MEDIA_COUNT,
-    var gridSize: Int = KeyUtils.DEFAULT_GRID_SIZE,
-    var minTime: Long = KeyUtils.DEFAULT_DURATION,
-    var maxTime: Long = KeyUtils.DEFAULT_DURATION,
+    var maxCount: Int = MediaConstant.DEFAULT_MEDIA_COUNT,
+    var gridSize: Int = MediaConstant.DEFAULT_GRID_SIZE,
+    var minTime: Long = MediaConstant.DEFAULT_DURATION,
+    var maxTime: Long = MediaConstant.DEFAULT_DURATION,
     var supportedFileType: MutableList<String> = mutableListOf(),
     var isCrop: Boolean = false,
     var fontFamilyName: String = "Tinos-Bold.ttf",

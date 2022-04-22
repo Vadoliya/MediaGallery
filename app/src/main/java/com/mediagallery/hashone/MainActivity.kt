@@ -1,10 +1,6 @@
 package com.mediagallery.hashone
 
 import android.app.Activity
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
@@ -13,8 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.mediagallery.hashone.gallery.config.builder.OpenGallery
 import com.mediagallery.hashone.gallery.model.MediaType
-import com.mediagallery.hashone.gallery.utils.KeyUtils
-import com.mediagallery.hashone.gallery.utils.Utils
+import com.mediagallery.hashone.gallery.utils.MediaConstant
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -111,7 +106,7 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
                 val selectedMedia =
-                    it.data?.getSerializableExtra(KeyUtils.SELECTED_MEDIA) as ArrayList<*>
+                    it.data?.getSerializableExtra(MediaConstant.MEDIA_PATHS) as ArrayList<*>
                 Toast.makeText(
                     this,
                     "Select ${selectedMedia.size}  $mediaType files \n${selectedMedia}",

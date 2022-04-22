@@ -5,7 +5,7 @@ import android.content.Intent
 import com.mediagallery.hashone.gallery.MediaActivity
 import com.mediagallery.hashone.gallery.config.GalleryConfig
 import com.mediagallery.hashone.gallery.model.MediaType
-import com.mediagallery.hashone.gallery.utils.KeyUtils
+import com.mediagallery.hashone.gallery.utils.MediaConstant
 
 
 class OpenGallery(private val context: Context) {
@@ -18,7 +18,7 @@ class OpenGallery(private val context: Context) {
     fun setMaxCount(maxCount: Int): OpenGallery {
         // handle negative input
         lassiConfig.maxCount = if (maxCount < 0) {
-            KeyUtils.DEFAULT_MEDIA_COUNT
+            MediaConstant.DEFAULT_MEDIA_COUNT
         } else {
             maxCount
         }
